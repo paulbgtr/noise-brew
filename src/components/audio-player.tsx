@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { Slider } from "./ui/slider";
 import { createSignal, onCleanup } from "solid-js";
 import { Howl } from "howler";
+import { Play, Pause } from "lucide-solid";
 
 type Props = {
   soundPath: string;
@@ -38,11 +39,20 @@ export const AudioPlayer = ({ soundPath }: Props) => {
     sound.unload();
   });
 
+  const iconSize = 12;
+
   return (
-    <div class="flex flex-col gap-4 w-60">
-      <Button onClick={toggle}>{isPlaying() ? "Pause" : "Play"}</Button>
+    <div class="flex w-full items-center gap-3">
+      <Button
+        size="sm"
+        onClick={toggle}
+        aria-label={isPlaying() ? "Pause audio" : "Play audio"}
+      >
+        {isPlaying() ? <Pause size={iconSize} /> : <Play size={iconSize} />}
+      </Button>
 
       <Slider
+        class="min-w-0 flex-1"
         value={[volume()]}
         minValue={0}
         maxValue={100}
