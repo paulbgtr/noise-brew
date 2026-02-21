@@ -1,6 +1,7 @@
 import { Play, Square, Volume2, VolumeX } from "lucide-solid";
 
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { Slider } from "~/components/ui/slider";
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 
 export const MixerControls = (props: Props) => {
   return (
-    <section class="rounded-2xl border border-border/80 bg-white/[0.05] p-4 shadow-[0_20px_40px_-28px_rgba(2,6,23,0.9)] backdrop-blur-sm">
+    <Card as="section" tone="elevated">
       <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-2">
           <span class="text-sm font-semibold text-white/95">Mixer</span>
@@ -45,6 +46,6 @@ export const MixerControls = (props: Props) => {
         label="Master volume"
         onChange={props.onMasterVolumeChange}
       />
-    </section>
+    </Card>
   );
 };

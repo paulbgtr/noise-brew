@@ -2,6 +2,7 @@ import { Pause, Play } from "lucide-solid";
 
 import type { Sound } from "~/data/sound-catalog";
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { Slider } from "~/components/ui/slider";
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
 
 export const SoundTrackCard = (props: Props) => {
   return (
-    <article class="rounded-2xl border border-border/80 bg-white/[0.03] p-4 shadow-[0_20px_40px_-28px_rgba(2,6,23,0.9)] backdrop-blur-sm">
+    <Card as="article" tone="subtle">
       <div class="mb-3 flex items-center gap-2">
         <span class="text-base leading-none" aria-hidden="true">
           {props.sound.emoji}
@@ -42,6 +43,6 @@ export const SoundTrackCard = (props: Props) => {
           onChange={props.onVolumeChange}
         />
       </div>
-    </article>
+    </Card>
   );
 };
