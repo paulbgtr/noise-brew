@@ -1,26 +1,17 @@
-import { AudioPlayer } from "~/components/audio-player";
+import { SoundItems } from "~/components/sound-items";
 
 export default function Home() {
   return (
-    <main class="h-screen">
-      <section class="flex items-center justify-center h-full">
-        <div>
-          <div>
-            Forest: <AudioPlayer soundPath="/audio/forest.mp3" />
-          </div>
-          <div>
-            Fireplace: <AudioPlayer soundPath="/audio/fireplace.mp3" />
-          </div>
-          <div>
-            Cafe: <AudioPlayer soundPath="/audio/cafe.mp3" />
-          </div>
-          <div>
-            Ocean: <AudioPlayer soundPath="/audio/ocean.mp3" />
-          </div>
-          <div>
-            Rain: <AudioPlayer soundPath="/audio/rain.mp3" />
-          </div>
-        </div>
+    <main class="min-h-screen bg-linear-to-b from-surface via-surface to-[#0b1225] px-5 py-10 text-white">
+      <section class="mx-auto w-full max-w-3xl">
+        <header class="mb-7">
+          <h1 class="text-3xl font-semibold tracking-tight">Noise Brew</h1>
+          <p class="mt-1 text-sm text-muted">
+            Pick a soundscape and tune the volume.
+          </p>
+        </header>
+
+        <SoundItems />
       </section>
     </main>
   );
