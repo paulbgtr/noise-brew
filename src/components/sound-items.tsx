@@ -1,6 +1,7 @@
-import { createSignal, For, onCleanup, onMount } from "solid-js";
+import { createMemo, createSignal, For, onCleanup, onMount } from "solid-js";
 import { Howl } from "howler";
 import { MixerControls } from "~/components/mixer-controls";
+import { NowPlayingIndicator } from "~/components/now-playing-indicator";
 import { SOUND_CATALOG } from "~/data/sound-catalog";
 import { SoundTrackCard } from "~/components/sound-track-card";
 
@@ -12,6 +13,11 @@ export const SoundItems = () => {
   );
   const [isTrackPlaying, setIsTrackPlaying] = createSignal<boolean[]>(
     SOUND_CATALOG.map(() => false),
+  );
+  const activeTrackNames = createMemo(() =>
+    SOUND_CATALOG.filter((_, index) => isTrackPlaying()[index]).map(
+      (sound) => sound.name,
+    ),
   );
 
   const players: Howl[] = [];
@@ -125,6 +131,12 @@ export const SoundItems = () => {
 
   return (
     <div class="grid gap-4">
+      <NowPlayingIndicator
+        activeTrackNames={activeTrackNames()}
+        masterVolume={masterVolume()}
+        isMuted={isMuted()}
+      />
+
       <MixerControls
         trackCount={SOUND_CATALOG.length}
         masterVolume={masterVolume()}
