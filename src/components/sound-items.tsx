@@ -2,13 +2,20 @@ import { For } from "solid-js";
 
 import { AudioPlayer } from "~/components/audio-player";
 
+type Sound = {
+  emoji: string;
+  name: string;
+  path: string;
+};
+
 export const SoundItems = () => {
-  const sounds = [
+  const sounds: Sound[] = [
     { emoji: "🍃", name: "Forest", path: "/audio/forest.mp3" },
     { emoji: "🔥", name: "Fireplace", path: "/audio/fireplace.mp3" },
     { emoji: "☕", name: "Cafe", path: "/audio/cafe.mp3" },
     { emoji: "🌊", name: "Ocean", path: "/audio/ocean.mp3" },
     { emoji: "🌧️", name: "Rain", path: "/audio/rain.mp3" },
+    { emoji: "💦", name: "River", path: "/audio/river.mp3" },
   ];
 
   return (
