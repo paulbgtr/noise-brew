@@ -1,3 +1,4 @@
+import { NowPlayingIndicator } from "~/components/now-playing-indicator";
 import { SoundItems } from "~/components/sound-items";
 
 export default function Home() {

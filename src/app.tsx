@@ -4,6 +4,7 @@ import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
 
+import { NowPlayingIndicator } from "./components/now-playing-indicator";
 import { PlayerProvider } from "./audio/player-provider";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
       >
         <FileRoutes />
       </Router>
+      <NowPlayingIndicator />
     </PlayerProvider>
   );
 }

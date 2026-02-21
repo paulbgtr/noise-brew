@@ -1,6 +1,5 @@
 import { For, onCleanup, onMount } from "solid-js";
 import { MixerControls } from "~/components/mixer-controls";
-import { NowPlayingIndicator } from "~/components/now-playing-indicator";
 import { SOUND_CATALOG } from "~/data/sound-catalog";
 import { SoundTrackCard } from "~/components/sound-track-card";
 
@@ -26,8 +25,6 @@ export const SoundItems = () => {
 
   return (
     <div class="grid gap-4">
-      <NowPlayingIndicator />
-
       <MixerControls />
 
       <div class="grid gap-3 sm:grid-cols-2">
