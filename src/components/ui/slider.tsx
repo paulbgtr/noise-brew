@@ -20,13 +20,13 @@ export const Slider = (props: SliderProps) => {
           {local.label ?? "Value"}
         </KSlider.Label>
         {(local.showValueLabel ?? true) ? (
-          <KSlider.ValueLabel class="px-2.5 py-1 text-right text-xs font-semibold tabular-nums text-muted" />
+          <KSlider.ValueLabel class="rounded-md border border-border/70 bg-white/[0.03] px-2.5 py-1 text-right text-xs font-semibold tabular-nums text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]" />
         ) : null}
       </div>
 
-      <KSlider.Track class="relative h-2.5 rounded-full border border-border/70 bg-surface/55">
-        <KSlider.Fill class="absolute h-full rounded-full bg-linear-to-r from-primary/75 to-primary shadow-[0_0_0_1px_rgba(99,102,241,0.25)]" />
-        <KSlider.Thumb class="block top-1/2 h-5 w-5 -translate-y-1/2 rounded-full border-2 border-muted bg-white shadow-[0_10px_22px_-12px_rgba(2,6,23,0.85)] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 active:scale-95">
+      <KSlider.Track class="relative h-3 rounded-full border border-border/80 bg-linear-to-r from-surface/95 to-surface/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),inset_0_-1px_0_rgba(2,6,23,0.45)]">
+        <KSlider.Fill class="absolute h-full rounded-full bg-linear-to-r from-[#7b84ff] via-primary to-primaryHover shadow-[0_0_0_1px_rgba(129,140,248,0.35),0_6px_20px_-10px_rgba(99,102,241,0.75)]" />
+        <KSlider.Thumb class="block top-1/2 h-5.5 w-5.5 -translate-y-1/2 rounded-full border border-white/60 bg-linear-to-b from-white via-white to-[#dbe3ff] shadow-[0_12px_24px_-14px_rgba(2,6,23,0.95),0_0_0_1px_rgba(15,23,42,0.45)] transition-all duration-150 hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30 active:scale-[0.98]">
           <KSlider.Input />
         </KSlider.Thumb>
       </KSlider.Track>
