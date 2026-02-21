@@ -1,15 +1,12 @@
 import { For, Show } from "solid-js";
 
+import { usePlayer } from "~/audio/player-provider";
 import { Card } from "~/components/ui/card";
 
-type Props = {
-  activeTrackNames: string[];
-  masterVolume: number;
-  isMuted: boolean;
-};
+export const NowPlayingIndicator = () => {
+  const { activeTrackNames, masterVolume, isMuted } = usePlayer();
 
-export const NowPlayingIndicator = (props: Props) => {
-  const isActive = () => props.activeTrackNames.length > 0;
+  const isActive = () => activeTrackNames().length > 0;
 
   return (
     <Card
@@ -54,24 +51,24 @@ export const NowPlayingIndicator = (props: Props) => {
               }
             >
               <span class="text-sm font-medium text-white/95">
-                {props.activeTrackNames.length} track
-                {props.activeTrackNames.length === 1 ? "" : "s"} active
+                {activeTrackNames().length} track
+                {activeTrackNames().length === 1 ? "" : "s"} active
               </span>
             </Show>
           </div>
         </div>
 
         <div class="flex items-center gap-2 text-xs text-muted">
-          <span>Master {props.masterVolume}%</span>
-          <span class={props.isMuted ? "text-primary/90" : ""}>
-            {props.isMuted ? "Muted" : "Live"}
+          <span>Master {masterVolume()}%</span>
+          <span class={isMuted() ? "text-primary/90" : ""}>
+            {isMuted() ? "Muted" : "Live"}
           </span>
         </div>
       </div>
 
       <Show when={isActive()}>
         <div class="mt-3 flex flex-wrap gap-2">
-          <For each={props.activeTrackNames}>
+          <For each={activeTrackNames()}>
             {(name) => (
               <span class="rounded-full border border-primary/35 bg-primary/12 px-2.5 py-1 text-xs font-medium text-white/90">
                 {name}
