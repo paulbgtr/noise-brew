@@ -1,12 +1,12 @@
 import { Button } from "@kobalte/core/button";
-import { createSignal, onMount, onCleanup } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { Howl } from "howler";
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = createSignal(false);
 
   const sound = new Howl({
-    src: ["/forest.mp3"],
+    src: ["/audio/forest.mp3"],
     onplay: () => setIsPlaying(true),
     onpause: () => setIsPlaying(false),
     onstop: () => setIsPlaying(false),
@@ -16,11 +16,11 @@ export default function Home() {
   const toggle = () => {
     if (!sound) return;
 
-    if (isPlaying()) {
-      sound.pause();
-    } else {
-      sound.play();
+    if (!isPlaying()) {
+      return sound.play();
     }
+
+    sound.pause();
   };
 
   onCleanup(() => {
