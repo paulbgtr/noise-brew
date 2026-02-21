@@ -1,32 +1,46 @@
-# SolidStart
+# Noise Brew
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+Noise Brew is a minimal ambient sound mixer built with SolidStart.
+It lets you layer multiple soundscapes (rain, ocean, cafe, etc.), control per-track volume, and adjust a global master volume.
 
-## Creating a project
+## Features
+
+- Multi-track ambient mixer
+- Per-track play/pause and volume
+- Master controls: play all, stop all, mute, master volume
+- Smooth fade-in/fade-out playback transitions
+- Floating "Now Playing" indicator when multiple tracks are active
+
+## Tech Stack
+
+- SolidStart + SolidJS
+- Howler.js for audio playback
+- UnoCSS for styling
+- Kobalte primitives (buttons/sliders)
+
+## Run Locally
 
 ```bash
-# create a new project in the current directory
-npm init solid@latest
-
-# create a new project in my-app
-npm init solid@latest my-app
+bun install
+bun run dev
 ```
 
-## Developing
+App runs on your local dev server (typically `http://localhost:3000`).
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Scripts
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+bun run dev      # start development server
+bun run build    # build for production
+bun run start    # run production build
 ```
 
-## Building
+## Project Structure
 
-Solid apps are built with _presets_, which optimise your project for deployment to different environments.
-
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
-
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
+```txt
+src/
+  audio/         # player state/context and audio engine
+  components/    # UI components (mixer, cards, navbar, controls)
+  data/          # static sound catalog
+  routes/        # app routes
+```
