@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { Slider } from "@kobalte/core/slider";
+import { Slider } from "./ui/slider";
 import { createSignal, onCleanup } from "solid-js";
 import { Howl } from "howler";
 
@@ -47,20 +47,9 @@ export const AudioPlayer = ({ soundPath }: Props) => {
         minValue={0}
         maxValue={100}
         step={1}
+        label="Volume"
         onChange={handleVolumeChange}
-      >
-        <div class="flex justify-between text-sm text-muted">
-          <Slider.Label>Volume</Slider.Label>
-          <Slider.ValueLabel />
-        </div>
-
-        <Slider.Track class="relative h-2 bg-border rounded-full">
-          <Slider.Fill class="absolute h-full bg-primary rounded-full" />
-          <Slider.Thumb class="block w-4 h-4 bg-white rounded-full shadow">
-            <Slider.Input />
-          </Slider.Thumb>
-        </Slider.Track>
-      </Slider>
+      />
     </div>
   );
 };
