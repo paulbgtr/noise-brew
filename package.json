@@ -14,6 +14,7 @@
     "@unocss/preset-wind4": "^66.5.2",
     "@unocss/reset": "^66.5.2",
     "howler": "^2.2.4",
+    "lucide-solid": "^0.575.0",
     "solid-js": "^1.9.9",
     "unocss": "^66.5.2",
     "vinxi": "^0.5.8"
