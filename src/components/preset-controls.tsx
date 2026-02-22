@@ -1,9 +1,22 @@
 import { createMemo, createSignal, onMount, Show } from "solid-js";
-import { Download, Save, Trash2 } from "lucide-solid";
+import { ChevronDown, Save, Trash2 } from "lucide-solid";
 
 import { usePlayer } from "~/audio/player-provider";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuArrow,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuIcon,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 export const PresetControls = () => {
   const {
@@ -17,10 +30,14 @@ export const PresetControls = () => {
   } = usePlayer();
 
   const [name, setName] = createSignal("");
-  const [selectedId, setSelectedId] = createSignal<string>("");
   const [error, setError] = createSignal<string | null>(null);
 
   const hasPresets = createMemo(() => presets().length > 0);
+  const activePresetId = createMemo(() => selectedPresetId() || "");
+  const activePresetName = createMemo(() => {
+    const selected = presets().find((preset) => preset.id === activePresetId());
+    return selected?.name ?? "Select preset";
+  });
 
   onMount(() => {
     hydratePresets();
@@ -37,18 +54,15 @@ export const PresetControls = () => {
     setError(null);
   };
 
-  const applyPreset = () => {
-    const id = selectedId() || selectedPresetId() || "";
+  const applyPreset = (id: string) => {
     if (!id) return;
     applyPresetById(id);
-    setSelectedId(id);
   };
 
-  const removePreset = () => {
-    const id = selectedId() || selectedPresetId() || "";
+  const removeActivePreset = () => {
+    const id = activePresetId();
     if (!id) return;
     deletePreset(id);
-    setSelectedId("");
   };
 
   return (
@@ -88,30 +102,45 @@ export const PresetControls = () => {
             </p>
           }
         >
-          <div class="flex flex-col gap-2 sm:flex-row">
-            <select
-              class="h-11 w-full rounded-xl border border-border/80 bg-surface/80 px-3 text-sm text-white/90 outline-none transition-colors focus:border-primary/50"
-              value={selectedId() || selectedPresetId() || ""}
-              onChange={(event) => setSelectedId(event.currentTarget.value)}
-            >
-              <option value="" disabled>
-                Choose a preset
-              </option>
-              {presets().map((preset) => (
-                <option value={preset.id}>{preset.name}</option>
-              ))}
-            </select>
+          <div class="grid gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                class="h-11 w-full inline-flex items-center justify-between gap-2 rounded-xl border border-border/85 bg-white/[0.03] px-3 text-sm font-medium text-white/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-220 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary/35 sm:min-w-68"
+                aria-label="Select preset"
+              >
+                <span class="truncate">{activePresetName()}</span>
+                <DropdownMenuIcon>
+                  <ChevronDown size={16} class="text-muted" />
+                </DropdownMenuIcon>
+              </DropdownMenuTrigger>
 
-            <div class="flex gap-2 sm:shrink-0">
-              <Button variant="ghost" onClick={applyPreset}>
-                <Download size={14} />
-                Apply
-              </Button>
-              <Button variant="ghost" onClick={removePreset}>
-                <Trash2 size={14} />
-                Delete
-              </Button>
-            </div>
+              <DropdownMenuContent class="w-[--kb-dropdown-menu-trigger-width]">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Apply Preset</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={activePresetId()}
+                    onChange={applyPreset}
+                  >
+                    {presets().map((preset) => (
+                      <DropdownMenuRadioItem value={preset.id}>
+                        {preset.name}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  class="text-[#fca5a5] data-[highlighted]:bg-[#7f1d1d]/35 data-[highlighted]:text-[#fecaca]"
+                  disabled={!activePresetId()}
+                  onSelect={removeActivePreset}
+                >
+                  <Trash2 size={14} />
+                  Delete selected preset
+                </DropdownMenuItem>
+                <DropdownMenuArrow />
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </Show>
       </div>
