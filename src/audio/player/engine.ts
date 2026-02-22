@@ -3,6 +3,7 @@ import { Howl } from "howler";
 import { SOUND_CATALOG } from "~/data/sound-catalog";
 
 import type { PlayerState } from "./state";
+import type { PlayerMixState } from "./types";
 
 export const createPlayerEngine = (state: PlayerState) => {
   const players: Howl[] = [];
@@ -113,7 +114,30 @@ export const createPlayerEngine = (state: PlayerState) => {
     applyAllVolumes(nextMuted, state.masterVolume());
   };
 
+  const applyMixState = (mixState: PlayerMixState) => {
+    state.setMasterVolume(mixState.masterVolume);
+    state.setIsMuted(mixState.isMuted);
+    state.setTrackVolumes([...mixState.trackVolumes]);
+
+    applyAllVolumes(mixState.isMuted, mixState.masterVolume);
+
+    players.forEach((player, index) => {
+      const shouldPlay = mixState.isTrackPlaying[index];
+
+      if (shouldPlay && !player.playing()) {
+        player.play();
+      }
+
+      if (!shouldPlay && player.playing()) {
+        player.pause();
+      }
+
+      state.setTrackPlaying(index, shouldPlay);
+    });
+  };
+
   return {
+    applyMixState,
     disposePlayers,
     handleMasterVolumeChange,
     handleTrackVolumeChange,

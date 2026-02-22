@@ -2,6 +2,8 @@ import { createMemo, createSignal } from "solid-js";
 
 import { SOUND_CATALOG } from "~/data/sound-catalog";
 
+import type { PlayerPreset } from "./types";
+
 export const createPlayerState = () => {
   const [masterVolume, setMasterVolume] = createSignal(100);
   const [isMuted, setIsMuted] = createSignal(false);
@@ -11,6 +13,11 @@ export const createPlayerState = () => {
   const [isTrackPlaying, setIsTrackPlaying] = createSignal<boolean[]>(
     SOUND_CATALOG.map(() => false),
   );
+  const [presets, setPresets] = createSignal<PlayerPreset[]>([]);
+  const [selectedPresetId, setSelectedPresetId] = createSignal<string | null>(
+    null,
+  );
+  const [hasHydratedPresets, setHasHydratedPresets] = createSignal(false);
 
   const activeTrackNames = createMemo(() =>
     SOUND_CATALOG.filter((_, index) => isTrackPlaying()[index]).map(
@@ -28,12 +35,18 @@ export const createPlayerState = () => {
 
   return {
     activeTrackNames,
+    hasHydratedPresets,
     isMuted,
     isTrackPlaying,
     masterVolume,
+    presets,
+    selectedPresetId,
+    setHasHydratedPresets,
     setIsMuted,
     setIsTrackPlaying,
     setMasterVolume,
+    setPresets,
+    setSelectedPresetId,
     setTrackPlaying,
     setTrackVolumes,
     trackVolumes,

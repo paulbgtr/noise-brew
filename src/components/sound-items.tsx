@@ -1,5 +1,6 @@
 import { For, onCleanup, onMount } from "solid-js";
 import { MixerControls } from "~/components/mixer-controls";
+import { PresetControls } from "~/components/preset-controls";
 import { SOUND_CATALOG } from "~/data/sound-catalog";
 import { SoundTrackCard } from "~/components/sound-track-card";
 
@@ -26,6 +27,7 @@ export const SoundItems = () => {
   return (
     <div class="grid gap-4">
       <MixerControls />
+      <PresetControls />
 
       <div class="grid gap-3 sm:grid-cols-2">
         <For each={SOUND_CATALOG}>
