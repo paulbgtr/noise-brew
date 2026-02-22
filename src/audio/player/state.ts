@@ -13,6 +13,7 @@ export const createPlayerState = () => {
   const [isTrackPlaying, setIsTrackPlaying] = createSignal<boolean[]>(
     SOUND_CATALOG.map(() => false),
   );
+  const [hasPausedTracks, setHasPausedTracks] = createSignal(false);
   const [presets, setPresets] = createSignal<PlayerPreset[]>([]);
   const [selectedPresetId, setSelectedPresetId] = createSignal<string | null>(
     null,
@@ -35,6 +36,7 @@ export const createPlayerState = () => {
 
   return {
     activeTrackNames,
+    hasPausedTracks,
     hasHydratedPresets,
     isMuted,
     isTrackPlaying,
@@ -42,6 +44,7 @@ export const createPlayerState = () => {
     presets,
     selectedPresetId,
     setHasHydratedPresets,
+    setHasPausedTracks,
     setIsMuted,
     setIsTrackPlaying,
     setMasterVolume,

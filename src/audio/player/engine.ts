@@ -7,6 +7,12 @@ import type { PlayerMixState } from "./types";
 
 export const createPlayerEngine = (state: PlayerState) => {
   const players: Howl[] = [];
+  let pausedSnapshot: boolean[] | null = null;
+
+  const clearPausedSnapshot = () => {
+    pausedSnapshot = null;
+    state.setHasPausedTracks(false);
+  };
 
   const effectiveVolume = (
     trackVolume: number,
@@ -57,6 +63,42 @@ export const createPlayerEngine = (state: PlayerState) => {
     players.forEach((player) => player.unload());
     players.length = 0;
     state.setIsTrackPlaying(SOUND_CATALOG.map(() => false));
+    clearPausedSnapshot();
+  };
+
+  const pauseCurrentTracks = () => {
+    const snapshot = players.map((player) => player.playing());
+    if (!snapshot.some(Boolean)) return;
+
+    pausedSnapshot = snapshot;
+    state.setHasPausedTracks(true);
+
+    snapshot.forEach((wasPlaying, index) => {
+      if (!wasPlaying) return;
+
+      const player = players[index];
+      if (!player) return;
+      player.pause();
+      state.setTrackPlaying(index, false);
+    });
+  };
+
+  const resumePausedTracks = () => {
+    if (!pausedSnapshot) return;
+
+    pausedSnapshot.forEach((wasPlaying, index) => {
+      if (!wasPlaying) return;
+
+      const player = players[index];
+      if (!player) return;
+
+      if (!player.playing()) {
+        player.play();
+      }
+      state.setTrackPlaying(index, true);
+    });
+
+    clearPausedSnapshot();
   };
 
   const toggleTrack = (index: number) => {
@@ -75,6 +117,7 @@ export const createPlayerEngine = (state: PlayerState) => {
   };
 
   const stopAll = () => {
+    clearPausedSnapshot();
     players.forEach((player, index) => {
       if (player.playing()) {
         player.stop();
@@ -84,6 +127,7 @@ export const createPlayerEngine = (state: PlayerState) => {
   };
 
   const playAll = () => {
+    clearPausedSnapshot();
     players.forEach((player, index) => {
       if (!player.playing()) {
         player.play();
@@ -115,6 +159,7 @@ export const createPlayerEngine = (state: PlayerState) => {
   };
 
   const applyMixState = (mixState: PlayerMixState) => {
+    clearPausedSnapshot();
     state.setMasterVolume(mixState.masterVolume);
     state.setIsMuted(mixState.isMuted);
     state.setTrackVolumes([...mixState.trackVolumes]);
@@ -142,7 +187,9 @@ export const createPlayerEngine = (state: PlayerState) => {
     handleMasterVolumeChange,
     handleTrackVolumeChange,
     initializePlayers,
+    pauseCurrentTracks,
     playAll,
+    resumePausedTracks,
     stopAll,
     toggleMute,
     toggleTrack,

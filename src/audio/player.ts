@@ -13,6 +13,7 @@ export const createPlayer = () => {
 
   return {
     activeTrackNames: state.activeTrackNames,
+    hasPausedTracks: state.hasPausedTracks,
     hasHydratedPresets: state.hasHydratedPresets,
     isMuted: state.isMuted,
     isTrackPlaying: state.isTrackPlaying,

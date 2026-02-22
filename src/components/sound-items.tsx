@@ -25,7 +25,7 @@ export const SoundItems = () => {
   });
 
   return (
-    <div class="grid gap-4">
+    <div class="grid gap-4 pb-32 sm:pb-36">
       <MixerControls />
       <PresetControls />
 
